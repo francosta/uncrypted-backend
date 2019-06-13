@@ -5,3 +5,20 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+10.times do 
+    User.create(name: Faker::Name.name, email: Faker::Internet.email, password_digest: Faker::Lorem.characters(10), profile_picture: Faker::LoremFlickr.image("200x200"))
+end
+
+User.all.each do |u|
+    3.times do
+        Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: u.id)
+    end
+end
+
+
+
+
+
+
+
