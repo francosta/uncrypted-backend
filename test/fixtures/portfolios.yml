@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  risk_profile: 1
+  user: one
+
+two:
+  risk_profile: 1
+  user: two
