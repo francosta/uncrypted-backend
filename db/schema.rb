@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_13_103310) do
+ActiveRecord::Schema.define(version: 2019_06_14_144029) do
 
   create_table "currencies", force: :cascade do |t|
     t.string "ticker"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2019_06_13_103310) do
     t.integer "currency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "price"
+    t.float "volume"
     t.index ["currency_id"], name: "index_currency_markets_on_currency_id"
     t.index ["market_id"], name: "index_currency_markets_on_market_id"
   end
@@ -42,8 +44,6 @@ ActiveRecord::Schema.define(version: 2019_06_13_103310) do
 
   create_table "markets", force: :cascade do |t|
     t.string "name"
-    t.string "price"
-    t.float "volume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

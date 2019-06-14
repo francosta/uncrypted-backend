@@ -26,6 +26,12 @@ currency_tickers.each do |ticker|
     Currency.create(ticker: raw_data["ticker"]["base"], target: raw_data["ticker"]["target"], price: raw_data["ticker"]["price"], volume: raw_data["ticker"]["volume"], change: raw_data["ticker"]["change"])
 end
 
+12.times do 
+    portfolio = Portfolio.all.sample
+    currency = Currency.all.sample
+    CurrencyPortfolio.create(portfolio_id: portfolio.id, currency_id: currency.id)
+end
+
 
 
 
