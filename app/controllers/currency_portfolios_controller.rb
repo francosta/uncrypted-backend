@@ -5,7 +5,7 @@ class CurrencyPortfoliosController < ApplicationController
     end
 
     def show
-        currency_portfolio = CurrencyPortfolio.find_by(params[:id])
+        currency_portfolio = CurrencyPortfolio.find_by(id: params[:id])
         render json: currency_portfolio
     end
 

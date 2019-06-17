@@ -10,9 +10,9 @@ class ApplicationController < ActionController::API
             currency.update(ticker: raw_data["ticker"]["base"], target: raw_data["ticker"]["target"], price: raw_data["ticker"]["price"], volume: raw_data["ticker"]["volume"], change: raw_data["ticker"]["change"])
             
             raw_data["ticker"]["markets"].each do |market|
-                market = Market.find_by(name: market["market"])
-                currency_market = CurrencyMarket.find_by(market_id: market.id, currency_id: currency.id)
-                currency_market.update(market_id: market.id, currency_id: currency.id, price: market["price"], volume: market["volume"])
+                marketToEdit = Market.find_by(name: market["market"])
+                currency_market = CurrencyMarket.find_by(market_id: marketToEdit.id, currency_id: currency.id)
+                currency_market.update(market_id: marketToEdit.id, currency_id: currency.id, price: market["price"], volume: market["volume"])
             end
        
         end 

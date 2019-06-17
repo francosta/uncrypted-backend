@@ -5,7 +5,7 @@ class CurrenciesController < ApplicationController
     end
 
     def show
-        currency = Currency.all.find_by(params[:id])
+        currency = Currency.all.find_by(id: params[:id])
         render json: CurrencySerializer.new(currency).to_serialized_hash
     end
 

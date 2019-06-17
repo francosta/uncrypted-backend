@@ -5,7 +5,7 @@ class PortfoliosController < ApplicationController
     end
 
     def show
-        portfolio = Portfolio.find_by(params[:id])
+        portfolio = Portfolio.find_by(id: params[:id])
         render json:  portfolio
     end
 
