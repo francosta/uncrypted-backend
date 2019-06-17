@@ -6,7 +6,7 @@ class CurrenciesController < ApplicationController
 
     def show
         currency = Currency.all.find_by(params[:id])
-        render json: currency
+        render json: CurrencySerializer.new(currency).to_serialized_hash
     end
 
     def create
