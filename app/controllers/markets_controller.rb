@@ -6,6 +6,6 @@ class MarketsController < ApplicationController
 
     def show
          market = Market.find_by(params[:id])
-        render json:  market
+        render json:  MarketSerializer.new(market).to_serialized_hash
     end
 end
