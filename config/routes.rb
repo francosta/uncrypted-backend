@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   get '/users' => 'users#index'
   get '/users/:id' => 'users#show' 
   get '/markets' => 'markets#index'
-  get '/markets/:id' => 'markets#show' 
+  get '/markets/:id' => 'markets#show'
+  get '/portfolios' => 'portfolios#index'
+  get '/portfolios/:id' => 'portfolios#show'  
 end
