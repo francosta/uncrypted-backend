@@ -7,14 +7,21 @@ class UserSerializer
     def to_serialized_hash
         options = {
           include: {
-            currencies: {
-              only: [:role, :company_name, :person_of_contact, :id, :industry],
+            portfolios: {
+              only: [:risk_profile],
               include: {
-                  tasks: {
-                      only: [:name, :deadline, :status, :id]
-                  },
-                  cover_letters: {
-                    only: [:content]
+                  currencies: {
+                      only: [:ticker, :target, :price, :volume, :change],
+                      include: {
+                          markets: {
+                              only: [:name],
+                              include: {
+                                  currency_markets: {
+                                      only: [:price, :volume]
+                                  }
+                              }
+                          }
+                      }
                   }
                 }
             }
@@ -23,6 +30,4 @@ class UserSerializer
         }
         @user.to_json(options)
     end
-
-
 end

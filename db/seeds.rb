@@ -39,7 +39,7 @@ currency_tickers.each do |ticker|
     end
 end
 
-12.times do 
+50.times do 
     portfolio = Portfolio.all.sample
     currency = Currency.all.sample
     CurrencyPortfolio.create(portfolio_id: portfolio.id, currency_id: currency.id)
