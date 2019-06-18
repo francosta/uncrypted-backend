@@ -1,5 +1,11 @@
 class UsersController < ApplicationController
     
+    def index
+        users = User.all
+        render json: UserSerializer.new(users).to_serialized_hash
+    end
+
+
     def show
         user = User.find_by(id: params[:id])
         render json: UserSerializer.new(user).to_serialized_hash
@@ -21,9 +27,18 @@ class UsersController < ApplicationController
         render json: user 
     end
 
+    def login
+        user = User.find_by(email: user_params[:email])
+        if user && user.authenticate(params[:password])
+            render json: user
+        else
+            render json: {error: 'Invalid user/password combination.'}, status: 401
+        end
+    end
+
     private
 
     def user_params 
-        params.require(:user).permit(:id, :name, :email, :password_digest, :profile_picture)
+        params.permit(:id, :name, :email, :password, :profile_picture)
     end
 end

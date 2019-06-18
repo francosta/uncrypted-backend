@@ -18,11 +18,11 @@ class ApplicationController < ActionController::API
         end 
     end
 
-    Thread.new do
-        loop do 
-          sleep 30
-          self.updateAPI()
-        end
-    end
+    # Thread.new do
+    #     loop do 
+    #       sleep 30
+    #       self.updateAPI()
+    #     end
+    # end
 
 end
