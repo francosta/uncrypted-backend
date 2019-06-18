@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   delete '/portfolios/:id' =>	'portfolios#destroy'
   get '/currency_portfolios' => 'currency_portfolios#index'
   get '/currency_portfolios/:id' => 'currency_portfolios#show'
-
   post '/login', to: 'users#login'
+  get '/validate' => 'users#validate'
 end

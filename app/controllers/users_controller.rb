@@ -30,9 +30,19 @@ class UsersController < ApplicationController
     def login
         user = User.find_by(email: user_params[:email])
         if user && user.authenticate(params[:password])
-            render json: user
+            render json: {username: user.name, id: user.id}
         else
             render json: {error: 'Invalid user/password combination.'}, status: 401
+        end
+    end
+
+    def validate
+        id = request.headers["Authorisation"].to_i
+        user = User.find_by(id: id)
+        if user
+            render json: {username: user.name, id: user.id}
+        else
+            render json: {error: 'User not found'}, status: 404
         end
     end
 
