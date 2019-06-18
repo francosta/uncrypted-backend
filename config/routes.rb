@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   get '/currency_portfolios/:id' => 'currency_portfolios#show'
   post '/login', to: 'users#login'
   get '/validate' => 'users#validate'
+  get 'data' => 'users#user_data'
 end
