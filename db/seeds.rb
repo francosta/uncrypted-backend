@@ -25,12 +25,13 @@ User.all.each do |u|
     end
 end
 
+User.create(name: "Francisco Costa", email: "francisco@fcosta.pt", password: "password", profile_picture: Faker::LoremFlickr.image("200x200"))
+
 currency_tickers = ["BTC", "ETH", "LTC"]
 
 api = API.new
 currency_tickers.each do |ticker|
     raw_data = api.get_currency_data(ticker)
-    # byebug
 
     currency = Currency.create(ticker: raw_data["ticker"]["base"], target: raw_data["ticker"]["target"], price: raw_data["ticker"]["price"], volume: raw_data["ticker"]["volume"], change: raw_data["ticker"]["change"])
     
