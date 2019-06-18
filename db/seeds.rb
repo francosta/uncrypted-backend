@@ -19,6 +19,9 @@ CurrencyPortfolio.delete_all
     User.create(name: Faker::Name.name, email: Faker::Internet.email, password_digest: Faker::Lorem.characters(10), profile_picture: Faker::LoremFlickr.image("200x200"))
 end
 
+User.create(name: "Francisco Costa", email: "francisco@fcosta.pt", password: "password", profile_picture: Faker::LoremFlickr.image("200x200"))
+
+
 User.all.each do |u|
     3.times do
         Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: u.id)
