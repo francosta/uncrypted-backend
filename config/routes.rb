@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/portfolios' => 'portfolios#index'
   get '/portfolios/:id' => 'portfolios#show'
   post '/portfolios' => 'portfolios#create'  
+  patch '/portfolios' => 'portfolios#update'  
   delete '/portfolios/:id' =>	'portfolios#destroy'
   get '/currency_portfolios' => 'currency_portfolios#index'
   get '/currency_portfolios/:id' => 'currency_portfolios#show'

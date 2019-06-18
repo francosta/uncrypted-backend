@@ -10,8 +10,14 @@ class PortfoliosController < ApplicationController
     end
 
     def create
+        byebug
         portfolio = Portfolio.create(portfolio_params)
         render json: portfolio
+    end
+
+    def update
+        user = User.update(user_params)
+        render json: user
     end
 
     def destroy
