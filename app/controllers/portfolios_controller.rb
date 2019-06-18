@@ -10,8 +10,7 @@ class PortfoliosController < ApplicationController
     end
 
     def create
-        byebug
-        portfolio = Portfolio.create(portfolio_params)
+        portfolio = Portfolio.create(user_id: params[:user_id], risk_profile: params[:risk_profile])
         render json: portfolio
     end
 
