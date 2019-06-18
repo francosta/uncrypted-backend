@@ -18,11 +18,36 @@ class ApplicationController < ActionController::API
         end 
     end
 
-    # Thread.new do
-    #     loop do 
-    #       sleep 30
-    #       self.updateAPI()
-    #     end
-    # end
+    Thread.new do
+        loop do 
+          sleep 30
+          self.updateAPI()
+        end
+    end
+
+    def current_user
+        id = decode_token["id"]
+        User.find_by(id: id)
+    end
+
+    def token
+        request.headers["Authorisation"]
+    end
+
+    def decode_token
+        begin
+            JWT.decode(token, secret).first
+        rescue 
+            {}
+        end
+    end
+
+    def issue_token(data)
+        JWT.encode(data, secret)
+    end
+
+    def secret
+        'shh'
+    end
 
 end

@@ -30,19 +30,27 @@ class UsersController < ApplicationController
     def login
         user = User.find_by(email: user_params[:email])
         if user && user.authenticate(params[:password])
-            render json: {username: user.name, id: user.id}
+            render json: {username: user.name, token: issue_token({id: user.id})}
         else
             render json: {error: 'Invalid user/password combination.'}, status: 401
         end
     end
 
     def validate
-        id = request.headers["Authorisation"].to_i
-        user = User.find_by(id: id)
+        user = current_user
         if user
-            render json: {username: user.name, id: user.id}
+            render json: {username: user.name, token: issue_token({id: user.id})}
         else
             render json: {error: 'User not found'}, status: 404
+        end
+    end
+
+    def user_data
+        user = current_user
+        if user
+            render json: UserSerializer.new(user).to_serialized_hash
+        else
+            render json: {error: 'Invalid token'}, status: 404
         end
     end
 
