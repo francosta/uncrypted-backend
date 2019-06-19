@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   post '/login', to: 'users#login'
   get '/validate' => 'users#validate'
   get 'data' => 'users#user_data'
+  post '/currency_portfolios' => 'currency_portfolios#create'
 end
