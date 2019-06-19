@@ -1,7 +1,7 @@
 class MarketsController < ApplicationController
     def index
         markets = Market.all
-        render json: markets
+        render json: MarketSerializer.new(markets).to_serialized_hash
     end
 
     def show
