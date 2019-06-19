@@ -5,21 +5,13 @@ Portfolio.delete_all
 CurrencyMarket.delete_all
 CurrencyPortfolio.delete_all
 
+#Create users
 10.times do 
     User.create(name: Faker::Name.name, email: Faker::Internet.email, password_digest: Faker::Lorem.characters(10), profile_picture: Faker::LoremFlickr.image("200x200"))
 end
-
 User.create(name: "Francisco Costa", email: "francisco@fcosta.pt", password: "password", profile_picture: Faker::LoremFlickr.image("200x200"))
 
-
-User.all.each do |u|
-    3.times do
-        Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: u.id)
-    end
-end
-
-User.create(name: "Francisco Costa", email: "francisco@fcosta.pt", password: "password", profile_picture: Faker::LoremFlickr.image("200x200"))
-
+#Get Currencies, Markets and create CurrencyMarkets
 currency_tickers = ["BTC", "ETH", "LTC"]
 
 api = API.new
@@ -34,10 +26,32 @@ currency_tickers.each do |ticker|
     end
 end
 
-50.times do 
-    portfolio = Portfolio.all.sample
-    currency = Currency.all.sample
-    CurrencyPortfolio.create(portfolio_id: portfolio.id, currency_id: currency.id)
+30.times do
+
+    user = User.all.sample
+    currency_market = CurrencyMarket.all.sample
+    user_portfolios = user.portfolios
+    
+    currency_portfolios = user_portfolios.map {|portfolio| portfolio.currency_portfolios}[0]
+    user_currencies = currency_portfolios.map {|currency_portfolio| currency_portfolio.currency_id}
+
+    currency_id = currency_market.currency_id
+    currency_ticker = Currency.all.select{|currency| currency_id == currency.id}[0].ticker
+    
+    buying_price = currency_market.price.to_f
+    quantity = Faker::Number.within(1..10)
+    transaction_total = buying_price * quantity
+
+    if user_currencies.include?(currency)
+        portfolio_to_update = user_portfolios.select{|portfolio| portfolio.currency == currency_ticker}
+        CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
+        portfolio_to_update.quantity = portfolio_to_update.quantity + quantity
+    else
+        portfolio_to_create = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
+        CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
+        portfolio_to_create.quantity = portfolio_to_create.quantity + quantity
+    end
+
 end
 
 
