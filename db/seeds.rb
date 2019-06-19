@@ -28,7 +28,7 @@ end
 
 #Create Portfolios and CurrencyPortfolios
 
-30.times do
+50.times do
 
     user = User.all.sample
     currency_market = CurrencyMarket.all.sample
@@ -42,19 +42,19 @@ end
     if user.portfolios.length == 0
         new_portfolio = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
         CurrencyPortfolio.create(portfolio_id: new_portfolio.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
-        new_portfolio.quantity = new_portfolio.quantity + quantity
+        new_portfolio.update(quantity: quantity)
     else
-        currency_portfolios = user_portfolios.map {|portfolio| portfolio.currency_portfolios}
+        currency_portfolios = user_portfolios.map {|portfolio| portfolio.currency_portfolios}.flatten
         user_currencies = currency_portfolios.map {|currency_portfolio| currency_portfolio.currency_id}
 
         if user_currencies.include?(currency_id)
-            portfolio_to_update = user_portfolios.select{|portfolio| portfolio.currency == currency_ticker}
+            portfolio_to_update = user_portfolios.select{|portfolio| portfolio.currency == currency_ticker}[0]
             CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
-            portfolio_to_update.quantity = portfolio_to_update.quantity + quantity
+            portfolio_to_update.update(quantity: portfolio_to_update.quantity + quantity)
         else
             new_portfolio = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
             CurrencyPortfolio.create(portfolio_id: new_portfolio.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
-            new_portfolio.quantity = new_portfolio.quantity + quantity
+            new_portfolio.update(quantity: new_portfolio.quantity + quantity)
         end    
     end
 

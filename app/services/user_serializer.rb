@@ -8,22 +8,7 @@ class UserSerializer
         options = {
           include: {
             portfolios: {
-              only: [:risk_profile],
-              include: {
-                  currencies: {
-                      only: [:ticker, :target, :price, :volume, :change],
-                      include: {
-                          markets: {
-                              only: [:name],
-                              include: {
-                                  currency_markets: {
-                                      only: [:price, :volume]
-                                  }
-                              }
-                          }
-                      }
-                  }
-                }
+              only: [:risk_profile, :currency, :quantity]
             }
           },
           except: [:updated_at, :created_at, :id, :password_digest],
