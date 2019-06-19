@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_14_144029) do
+ActiveRecord::Schema.define(version: 2019_06_19_053953) do
 
   create_table "currencies", force: :cascade do |t|
     t.string "ticker"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 2019_06_14_144029) do
     t.integer "currency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "price"
+    t.integer "quantity"
     t.index ["currency_id"], name: "index_currency_portfolios_on_currency_id"
     t.index ["portfolio_id"], name: "index_currency_portfolios_on_portfolio_id"
   end
