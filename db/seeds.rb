@@ -26,36 +26,36 @@ currency_tickers.each do |ticker|
     end
 end
 
+#Create Portfolios and CurrencyPortfolios
+
 30.times do
 
     user = User.all.sample
     currency_market = CurrencyMarket.all.sample
     user_portfolios = user.portfolios
-    
-    currency_portfolios = user_portfolios.map {|portfolio| portfolio.currency_portfolios}[0]
-    user_currencies = currency_portfolios.map {|currency_portfolio| currency_portfolio.currency_id}
-
     currency_id = currency_market.currency_id
     currency_ticker = Currency.all.select{|currency| currency_id == currency.id}[0].ticker
-    
     buying_price = currency_market.price.to_f
     quantity = Faker::Number.within(1..10)
     transaction_total = buying_price * quantity
-
-    if user_currencies.include?(currency)
-        portfolio_to_update = user_portfolios.select{|portfolio| portfolio.currency == currency_ticker}
-        CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
-        portfolio_to_update.quantity = portfolio_to_update.quantity + quantity
+    
+    if user.portfolios.length == 0
+        new_portfolio = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
+        CurrencyPortfolio.create(portfolio_id: new_portfolio.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
+        new_portfolio.quantity = new_portfolio.quantity + quantity
     else
-        portfolio_to_create = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
-        CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
-        portfolio_to_create.quantity = portfolio_to_create.quantity + quantity
+        currency_portfolios = user_portfolios.map {|portfolio| portfolio.currency_portfolios}
+        user_currencies = currency_portfolios.map {|currency_portfolio| currency_portfolio.currency_id}
+
+        if user_currencies.include?(currency_id)
+            portfolio_to_update = user_portfolios.select{|portfolio| portfolio.currency == currency_ticker}
+            CurrencyPortfolio.create(portfolio_id: portfolio_to_update.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
+            portfolio_to_update.quantity = portfolio_to_update.quantity + quantity
+        else
+            new_portfolio = Portfolio.create(risk_profile: Faker::Number.within(1..10), user_id: user.id, currency: currency_ticker, quantity: 0)
+            CurrencyPortfolio.create(portfolio_id: new_portfolio.id, currency_id: currency_id, price: buying_price, quantity: quantity, transaction_total: transaction_total)
+            new_portfolio.quantity = new_portfolio.quantity + quantity
+        end    
     end
 
 end
-
-
-
-
-
-
