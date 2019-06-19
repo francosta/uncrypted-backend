@@ -8,7 +8,7 @@ class UserSerializer
         options = {
           include: {
             portfolios: {
-              only: [:risk_profile, :currency, :quantity]
+              only: [:risk_profile, :currency, :quantity, :id]
             }
           },
           except: [:updated_at, :created_at, :id, :password_digest],

@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
 
 
     def self.updateAPI
-        currency_tickers = ["BTC", "ETH", "LTC"]
+        currency_tickers = ["BTC", "ETH", "LTC", "DASH", "XRP"]
         api = API.new
         currency_tickers.each do |ticker|
             raw_data = api.get_currency_data(ticker)

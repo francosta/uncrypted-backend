@@ -12,7 +12,7 @@ end
 User.create(name: "Francisco Costa", email: "francisco@fcosta.pt", password: "password", profile_picture: Faker::LoremFlickr.image("200x200"))
 
 #Get Currencies, Markets and create CurrencyMarkets
-currency_tickers = ["BTC", "ETH", "LTC"]
+currency_tickers = ["BTC", "ETH", "LTC", "DASH", "XRP"]
 
 api = API.new
 currency_tickers.each do |ticker|
