@@ -18,12 +18,12 @@ class ApplicationController < ActionController::API
         end 
     end
 
-    # Thread.new do
-    #     loop do 
-    #       sleep 30
-    #       self.updateAPI()
-    #     end
-    # end
+    Thread.new do
+        loop do 
+          sleep 30
+          self.updateAPI()
+        end
+    end
 
     def current_user
         id = decode_token["id"]
